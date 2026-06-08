@@ -1,0 +1,25 @@
+
+Subject: biotechnology
+Topic: vaccines
+Notes: Biotechnology is a multidisciplinary field that harnesses biological systems, living organisms, or their cellular and biomolecular components to develop practical products, technologies, and services. It merges biology with engineering and technology to solve problems across healthcare, agriculture, and environmental sustainability.
+----------------------
+
+Subject: genetics
+Topic: DNA
+Notes: Genetics is the scientific study of heredity and variation in living organisms. It explains how traits (such as eye color, height, and disease risk) are passed from parents to children through genes, which are specific chemical instructions made of DNA.
+----------------------
+
+Subject: microbiology
+Topic: microbes
+Notes: Microbiology is the scientific study of microorganisms�living things too small to be seen with the naked eye. This includes bacteria, viruses, fungi, algae, and protozoa. It examines their structure, function, genetics, and how they impact human health, agriculture, and the environment.
+----------------------
+
+====================
+QUESTION: What is DNA?
+ANSWER: DNA carries genetic instructions in living organisms.
+====================
+
+====================
+QUESTION: What is DNA?
+ANSWER: DNA carries genetic instructions in living organisms.
+====================
