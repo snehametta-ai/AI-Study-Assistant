@@ -2,11 +2,17 @@ import streamlit as st
 
 st.title("📚 AI Study Assistant")
 
+# ---------- NAVIGATION ----------
+menu = st.sidebar.selectbox(
+    "Choose Mode",
+    ["Home", "Study Mode", "Quiz", "Exam"]
+)
+
+# ---------- SESSION ----------
 if "notes" not in st.session_state:
     st.session_state.notes = []
 
-question = st.text_input("Ask your question:")
-
+# ---------- SIMPLE AI ANSWER ----------
 def get_answer(q):
     q = q.lower()
 
@@ -22,16 +28,43 @@ def get_answer(q):
     else:
         return "I am still learning this topic."
 
-if question:
-    answer = get_answer(question)
+# ---------- HOME ----------
+if menu == "Home":
+    st.subheader("Ask Your Question")
+    question = st.text_input("Enter question:")
 
-    st.success(answer)
+    if question:
+        answer = get_answer(question)
+        st.success(answer)
 
-    if st.button("💾 Save Note"):
-        note = f"Q: {question}\nA: {answer}\n"
-        st.session_state.notes.append(note)
-        st.success("Note saved!")
+        if st.button("💾 Save Note"):
+            st.session_state.notes.append(f"Q: {question}\nA: {answer}\n")
+            st.success("Note saved!")
 
+# ---------- STUDY MODE ----------
+elif menu == "Study Mode":
+    st.subheader("📖 Study Mode")
+    st.write("Biotechnology: uses living organisms for products.")
+    st.write("Genetics: study of heredity.")
+    st.write("DNA: carries genetic information.")
+
+# ---------- QUIZ ----------
+elif menu == "Quiz":
+    st.subheader("📝 Quiz")
+
+    q1 = st.radio("DNA stands for?", ["Deoxyribonucleic Acid", "Data Network Access", "None"])
+    if st.button("Submit Quiz"):
+        if q1 == "Deoxyribonucleic Acid":
+            st.success("Correct!")
+        else:
+            st.error("Wrong answer")
+
+# ---------- EXAM ----------
+elif menu == "Exam":
+    st.subheader("🎯 Exam Mode")
+    st.write("Coming soon... (we can upgrade this into full test system)")
+
+# ---------- NOTES ----------
 st.header("📒 Saved Notes")
 
 if st.session_state.notes:
@@ -40,8 +73,8 @@ if st.session_state.notes:
     st.text_area("Your Notes", all_notes, height=200)
 
     st.download_button(
-        label="📥 Download Notes",
-        data=all_notes,
+        "📥 Download Notes",
+        all_notes,
         file_name="study_notes.txt",
         mime="text/plain"
     )
