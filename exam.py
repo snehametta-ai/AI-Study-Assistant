@@ -5,6 +5,8 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 from datetime import datetime
 
+
+# ---------- PDF CERTIFICATE ----------
 def generate_certificate(name, score, total, percent, grade):
 
     buffer = BytesIO()
@@ -18,7 +20,7 @@ def generate_certificate(name, score, total, percent, grade):
     c.drawString(100, 680, f"Score: {score}/{total}")
     c.drawString(100, 660, f"Percentage: {percent:.1f}%")
     c.drawString(100, 640, f"Grade: {grade}")
-    c.drawString(100, 620, f"Date: {datetime.now()}")
+    c.drawString(100, 620, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     c.save()
     buffer.seek(0)
@@ -26,34 +28,46 @@ def generate_certificate(name, score, total, percent, grade):
     return buffer
 
 
+# ---------- EXAM SYSTEM ----------
 def run_exam():
 
     st.header("⏱️ Exam Mode")
 
+    questions = get_questions()
+
+    # ---------- TIMER ----------
     if "start_time" not in st.session_state:
         st.session_state.start_time = time.time()
-
-    questions = get_questions()
 
     duration = 20 * 60
     elapsed = time.time() - st.session_state.start_time
     remaining = int(duration - elapsed)
 
-    st.info(f"Time Left: {remaining//60:02d}:{remaining%60:02d}")
+    if remaining > 0:
+        st.info(f"Time Left: {remaining//60:02d}:{remaining%60:02d}")
+    else:
+        st.error("⛔ Time is up!")
 
-    answers = []
+    # ---------- STORE ANSWERS ----------
+    if "exam_answers" not in st.session_state:
+        st.session_state.exam_answers = {}
 
+    # ---------- QUESTIONS ----------
     for i, q in enumerate(questions):
 
-        ans = st.radio(q["question"], q["options"], key=f"ex{i}")
-        answers.append(ans)
+        st.session_state.exam_answers[i] = st.radio(
+            q["question"],
+            q["options"],
+            key=f"exam_{i}"
+        )
 
+    # ---------- SUBMIT ----------
     if st.button("Submit Exam") or remaining <= 0:
 
         score = 0
 
         for i, q in enumerate(questions):
-            if answers[i] == q["answer"]:
+            if st.session_state.exam_answers.get(i) == q["answer"]:
                 score += 1
 
         total = len(questions)
@@ -74,13 +88,15 @@ def run_exam():
         st.info(f"Percentage: {percent:.1f}%")
         st.info(f"Grade: {grade}")
 
+        # ---------- CERTIFICATE ----------
         name = st.text_input("Enter your name for certificate")
 
         if name:
             pdf = generate_certificate(name, score, total, percent, grade)
 
             st.download_button(
-                "Download Certificate",
+                "📥 Download Certificate",
                 pdf,
-                file_name="biotech_certificate.pdf"
+                file_name="biotech_certificate.pdf",
+                mime="application/pdf"
             )
