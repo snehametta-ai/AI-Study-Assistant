@@ -12,7 +12,10 @@ def run_study():
             "Biotechnology",
             "Microbiology",
             "Cell",
-            "Protein"
+            "Protein",
+            "Enzymes",
+            "PCR",
+            "CRISPR"
         ]
     )
 
@@ -44,4 +47,19 @@ def run_study():
     elif topic == "Protein":
         st.success(
             "Proteins are molecules made of amino acids that perform many functions in living organisms."
+        )
+
+    elif topic == "Enzymes":
+        st.success(
+            "Enzymes are biological catalysts that speed up chemical reactions in living organisms."
+        )
+
+    elif topic == "PCR":
+        st.success(
+            "PCR (Polymerase Chain Reaction) is a laboratory technique used to amplify DNA."
+        )
+
+    elif topic == "CRISPR":
+        st.success(
+            "CRISPR is a gene-editing technology that allows scientists to modify DNA sequences with high precision."
         )
