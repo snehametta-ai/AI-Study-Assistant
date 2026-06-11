@@ -54,6 +54,28 @@ def get_questions():
                 "Clouds"
             ],
             "answer": "Microorganisms"
+        },
+
+        {
+            "question": "What is a protein made of?",
+            "options": [
+                "Amino acids",
+                "Sugars",
+                "Lipids",
+                "Minerals"
+            ],
+            "answer": "Amino acids"
+        },
+
+        {
+            "question": "Which molecule carries genetic information?",
+            "options": [
+                "DNA",
+                "Protein",
+                "Water",
+                "Glucose"
+            ],
+            "answer": "DNA"
         }
 
     ]
