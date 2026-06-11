@@ -1,5 +1,6 @@
 import streamlit as st
 import learn
+import exam
 import question_bank
 
 st.title("📚 AI Study Assistant")
@@ -20,10 +21,22 @@ def get_answer(q):
 
     if "dna" in q:
         return "DNA carries genetic instructions in living organisms."
+
     elif "genetics" in q:
         return "Genetics is the study of genes and heredity."
+
     elif "biotechnology" in q:
         return "Biotechnology uses living organisms to create useful products."
+
+    elif "microbiology" in q:
+        return "Microbiology is the study of microorganisms."
+
+    elif "protein" in q:
+        return "Proteins are molecules made of amino acids."
+
+    elif "cell" in q:
+        return "The cell is the basic unit of life."
+
     else:
         return "I am still learning this topic."
 
@@ -39,7 +52,9 @@ if menu == "Home":
         st.success(answer)
 
         if st.button("💾 Save Note"):
-            st.session_state.notes.append(f"Q: {question}\nA: {answer}")
+            st.session_state.notes.append(
+                f"Q: {question}\nA: {answer}"
+            )
 
 # ---------- STUDY MODE ----------
 elif menu == "Study Mode":
@@ -60,33 +75,44 @@ elif menu == "Quiz":
 
     st.write(q["question"])
 
-    answer = st.radio("Choose answer:", q["options"], key=st.session_state.q_index)
+    answer = st.radio(
+        "Choose answer:",
+        q["options"],
+        key=st.session_state.q_index
+    )
 
     if st.button("Submit Answer"):
 
         if answer == q["answer"]:
-            st.success("Correct!")
+            st.success("✅ Correct!")
             st.session_state.score += 1
         else:
-            st.error(f"Wrong! Correct answer: {q['answer']}")
+            st.error(
+                f"❌ Wrong! Correct answer: {q['answer']}"
+            )
 
         st.session_state.q_index += 1
 
         if st.session_state.q_index >= len(questions):
-            st.success(f"🎉 Quiz Finished! Score: {st.session_state.score}/{len(questions)}")
+            st.success(
+                f"🎉 Quiz Finished! Score: {st.session_state.score}/{len(questions)}"
+            )
 
             st.session_state.q_index = 0
             st.session_state.score = 0
 
 # ---------- EXAM ----------
 elif menu == "Exam":
-    st.subheader("🎯 Exam Mode")
-    st.write("Coming soon...")
+    exam.run_exam()
 
 # ---------- NOTES ----------
 st.header("📒 Saved Notes")
 
 if st.session_state.notes:
-    st.text_area("Your Notes", "\n".join(st.session_state.notes), height=200)
+    st.text_area(
+        "Your Notes",
+        "\n".join(st.session_state.notes),
+        height=200
+    )
 else:
     st.info("No notes saved yet.")
