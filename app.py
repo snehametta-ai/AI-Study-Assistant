@@ -2,6 +2,7 @@ import streamlit as st
 import learn
 import exam
 import question_bank
+import pdf_generator
 
 st.title("📚 AI Study Assistant")
 
@@ -109,10 +110,28 @@ elif menu == "Exam":
 st.header("📒 Saved Notes")
 
 if st.session_state.notes:
+
+    notes_text = "\n".join(st.session_state.notes)
+
     st.text_area(
         "Your Notes",
-        "\n".join(st.session_state.notes),
+        notes_text,
         height=200
     )
+
+    if st.button("📄 Generate PDF"):
+
+        pdf_file = pdf_generator.create_pdf(
+            st.session_state.notes
+        )
+
+        with open(pdf_file, "rb") as file:
+            st.download_button(
+                label="⬇ Download PDF",
+                data=file,
+                file_name="study_notes.pdf",
+                mime="application/pdf"
+            )
+
 else:
     st.info("No notes saved yet.")
